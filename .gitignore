@@ -88,3 +88,5 @@ db.sqlite3
 .venv
 venv/
 .idea/
+.images
+/images
