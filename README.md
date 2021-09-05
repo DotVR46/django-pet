@@ -1,1 +1,1 @@
-# django-pet
+# Django website
