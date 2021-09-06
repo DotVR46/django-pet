@@ -90,3 +90,5 @@ venv/
 .idea/
 .images
 /images
+/static
+/uploads

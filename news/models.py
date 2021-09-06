@@ -1,7 +1,9 @@
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
+from django.utils.safestring import mark_safe
 from django.utils.text import slugify
+from taggit.managers import TaggableManager
 
 from comments.models import Comment
 
@@ -34,8 +36,10 @@ class Post(models.Model):
     content = models.TextField(verbose_name='Содержание')
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор', related_name='post_author')
     image = models.ImageField(upload_to=content_file_name, verbose_name='Изображение')
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='post_category', verbose_name='Категория')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='post_category',
+                                 verbose_name='Категория')
     comments = GenericRelation(Comment)
+    tags = TaggableManager(verbose_name='Теги', )
 
     def __str__(self):
         return self.title
@@ -44,6 +48,11 @@ class Post(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         super(Post, self).save(*args, **kwargs)
+
+    def get_image(self):
+        return mark_safe(f'<img src="{self.image.url}" width="75" height="75">')  # блок кода,который выводит картинку
+
+    get_image.short_description = 'Превью'  # название
 
     class Meta:
         verbose_name = 'Пост'
