@@ -4,7 +4,7 @@ from news.models import Post, Category
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ['title', 'author', 'category', 'tag_list', 'get_image']
+    list_display = ['title', 'author', 'category', 'created', 'tag_list', 'get_image']
     list_editable = ('category',)
     search_fields = ('title', 'category__title')
     readonly_fields = ('get_image',)

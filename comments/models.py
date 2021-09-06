@@ -10,9 +10,12 @@ class Comment(models.Model):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey()
+    parent = models.ForeignKey('self', related_name='children', blank=True, null=True, db_index=True,
+                               on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.author} - {self.content_type}'
+        return f'{self.author} - {self.content_type} - {self.content_object.id} | {self.content_object}'
 
     class Meta:
         verbose_name = 'Коммент'

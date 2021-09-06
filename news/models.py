@@ -40,9 +40,10 @@ class Post(models.Model):
                                  verbose_name='Категория')
     comments = GenericRelation(Comment)
     tags = TaggableManager(verbose_name='Теги', )
+    created = models.DateTimeField(auto_now=True, verbose_name='Дата создания')
 
     def __str__(self):
-        return self.title
+        return f'{self.title} - {self.created}'
 
     def save(self, *args, **kwargs):
         if not self.slug:
